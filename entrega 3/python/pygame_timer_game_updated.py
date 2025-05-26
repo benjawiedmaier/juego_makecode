@@ -4,8 +4,8 @@ import sys
 
 # Inicialización
 pygame.init()
-WIDTH, HEIGHT = 160, 120
-SCALE = 5
+WIDTH, HEIGHT = 480, 320
+SCALE = 1
 SCREEN = pygame.display.set_mode((WIDTH * SCALE, HEIGHT * SCALE))
 CLOCK = pygame.time.Clock()
 FONT = pygame.font.SysFont("Arial", 20)
@@ -19,9 +19,9 @@ pizza_img = pygame.image.load("pizza_piece.png")
 # Escalar imágenes
 bg_start = pygame.transform.scale(bg_start, (WIDTH, HEIGHT))
 bg_game = pygame.transform.scale(bg_game, (WIDTH, HEIGHT))
-player_img_small = pygame.transform.scale(player_img_original, (32, 32))
+player_img_small = pygame.transform.scale(player_img_original, (64, 64))
 player_img_large = pygame.transform.scale(player_img_original, (64, 64))
-pizza_img = pygame.transform.scale(pizza_img, (16, 16))
+pizza_img = pygame.transform.scale(pizza_img, (64, 64))
 
 # Clases
 class Sprite(pygame.sprite.Sprite):
@@ -40,8 +40,8 @@ class Sprite(pygame.sprite.Sprite):
 
 # Variables globales
 score = 0
-base_speed = 3
-boost_speed = 5
+base_speed = 7
+boost_speed = 40
 Xvel = base_speed
 Yvel = base_speed
 TIMER_DURATION = 3000
@@ -49,7 +49,7 @@ last_pizza_time = pygame.time.get_ticks()
 boost_active = False
 boost_start_time = 0
 boost_cooldown_start = -5000
-boost_duration = 2000
+boost_duration = 1000
 boost_cooldown = 5000
 
 player = Sprite(player_img_large, 61, 101)
@@ -63,8 +63,8 @@ def splash_screen():
     waiting = True
     while waiting:
         SCREEN.blit(pygame.transform.scale(bg_start, (WIDTH * SCALE, HEIGHT * SCALE)), (0, 0))
-        SCREEN.blit(pygame.transform.scale(player.image, (64 * SCALE // 4, 64 * SCALE // 4)),
-                    (player.rect.x * SCALE, player.rect.y * SCALE))
+        SCREEN.blit(pygame.transform.scale(player.image, (64 * SCALE // 4 * 6 , 64 * SCALE // 4 * 6)),
+                    (player.rect.x * SCALE, player.rect.y * SCALE - 50))
 
         bar_width = WIDTH * SCALE
         bar_height = 50
@@ -88,9 +88,9 @@ def splash_screen():
             waiting = False
 
 def draw_game(time_left):
-    SCREEN.blit(pygame.transform.scale(bg_game, (WIDTH * SCALE, HEIGHT * SCALE)), (0, 0))
+    SCREEN.blit(pygame.transform.scale(bg_game, (WIDTH * SCALE , HEIGHT * SCALE )), (0, 0))
     for sprite in sprites:
-        SCREEN.blit(pygame.transform.scale(sprite.image, (16 * SCALE, 16 * SCALE)),
+        SCREEN.blit(pygame.transform.scale(sprite.image, (16 * SCALE * 3, 16 * SCALE*3)),
                     (sprite.rect.x * SCALE, sprite.rect.y * SCALE))
     score_text = FONT.render(f"Score: {score}", True, (255, 255, 255))
     SCREEN.blit(score_text, (10, 10))
